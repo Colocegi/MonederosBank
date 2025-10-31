@@ -24,6 +24,7 @@ public class GestorReportes implements IReportable {
         }
     }
 
+    //Metodo
     @Override
     public void generarReporte() {
         System.out.println("========== REPORTE DEL BANCO ==========");

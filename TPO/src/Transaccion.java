@@ -41,5 +41,6 @@ public abstract class Transaccion implements IOperacionBancaria {
         return "Transaccion:" + "idTransaccion='" + idTransaccion + ", monto=" + monto + ", fecha='" + fecha + '\'';
     }
 
+
 }
 
