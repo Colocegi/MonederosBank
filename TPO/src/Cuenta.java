@@ -42,5 +42,6 @@ public abstract class Cuenta {
         this.tipo = tipo;
     }
 
-    
+    public abstract void acreditar(double monto);
+    public abstract boolean debitar(double monto);
 }
