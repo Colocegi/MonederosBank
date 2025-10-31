@@ -7,10 +7,10 @@ public abstract class Cuenta {
     protected double saldo;
     protected String tipo;
     protected List<Transaccion> listaTransacciones;
-    protected Cliente cliente; // Referencia al cliente
+    protected ICliente cliente; // Referencia al cliente
 
     // Constructor CORREGIDO: Recibe la instancia de Cliente.
-    public Cuenta(int numCuenta, String tipo, Cliente cliente) {
+    public Cuenta(int numCuenta, String tipo, ICliente cliente) {
         this.numCuenta = numCuenta;
         this.tipo = tipo;
         this.saldo = 0.0;
@@ -30,5 +30,5 @@ public abstract class Cuenta {
     public int getNumCuenta() { return numCuenta; }
     public double getSaldo() { return saldo; }
     public String getTipo() { return tipo; }
-    public Cliente getCliente() { return cliente; }
+    public ICliente getCliente() { return cliente; }
 }

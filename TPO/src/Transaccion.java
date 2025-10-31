@@ -36,11 +36,6 @@ public abstract class Transaccion implements IOperacionBancaria {
         this.fecha = fecha;
     }
 
-    @Override
-    public String toString() {
-        return "Transaccion:" + "idTransaccion='" + idTransaccion + ", monto=" + monto + ", fecha='" + fecha + '\'';
-    }
-
 
 }
 

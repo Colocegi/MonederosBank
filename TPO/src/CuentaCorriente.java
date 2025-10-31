@@ -3,7 +3,7 @@ public class CuentaCorriente extends Cuenta {
     private double limiteGiroDescubierto;
 
     // Constructor CORREGIDO
-    public CuentaCorriente(int numCuenta, Cliente cliente, double limiteGiroDescubierto) {
+    public CuentaCorriente(int numCuenta, ICliente cliente, double limiteGiroDescubierto) {
         // Llamada a super con el cliente ya creado y tipo fijo
         super(numCuenta, "CuentaCorriente", cliente);
         this.limiteGiroDescubierto = limiteGiroDescubierto;
@@ -14,8 +14,11 @@ public class CuentaCorriente extends Cuenta {
     protected void debitar(double monto) {
         if (this.saldo - monto >= -this.limiteGiroDescubierto) {
             this.saldo -= monto;
+            // Aquí iría el registro de la Transaccion si fuera necesario
         } else {
-            System.out.println("Débito excede el límite de giro descubierto de $" + this.limiteGiroDescubierto);
+            // Reemplazo del print por el lanzamiento de la excepción
+            throw new FalloTransaccionException(
+                    "Débito excede el límite de giro descubierto de $" + this.limiteGiroDescubierto + ". Máximo permitido: $" + (this.saldo + this.limiteGiroDescubierto));
         }
     }
 
