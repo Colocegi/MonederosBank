@@ -2,38 +2,37 @@ public class Cliente {
     private int idCliente;
     private String nombre;
     private String apellido;
+    private Cuenta cuenta; // referencia a su cuenta
 
-    public Cliente(int idCliente, String nombre, String apellido) {
+    public Cliente(int idCliente, String nombre, String apellido, Cuenta cuenta) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.cuenta = cuenta;
     }
 
     public int getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getApellido() {
         return apellido;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public Cuenta getCuenta() {
+        return cuenta;
     }
 
-    public void agregarCuenta(Cuenta cuenta) {
-        // Lógica para agregar una cuenta al cliente
+    // Este setter podría omitirse si querés que sea inmutable
+    protected void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    public double obtenerSaldoTotal() {
+        return cuenta != null ? cuenta.getSaldo() : 0.0;
     }
 }
