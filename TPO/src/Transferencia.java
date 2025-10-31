@@ -49,6 +49,15 @@ public class Transferencia extends Transaccion {
                  System.out.println("DEBITO FALLIDO: Saldo insuficiente o excede el límite de giro.");
             }
 
+            try {
+            this.cuentaOrigen.debitar(this.monto); 
+            System.out.println("DEBITO EXITOSO. Muevo fondos a Destinatario: " + this.idDestinatario);
+            
+            } catch (FalloTransaccionException e) {
+                // CAPTURA EL ERROR
+                System.out.println("TRANSFERENCIA FALLIDA: " + e.getMessage());
+            }
+
         } else {
             System.out.println("ERROR: No se especificó una cuenta de origen para la transferencia.");
         }

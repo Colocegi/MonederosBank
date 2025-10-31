@@ -67,6 +67,14 @@ public class Servicio implements IOperacionBancaria {
                 System.out.println("PAGO FALLIDO: Saldo insuficiente o excede el límite de giro.");
             }
 
+            try {
+            this.cuentaPagadora.debitar(this.monto); 
+            System.out.println("PAGO EXITOSO. Nuevo Saldo: $" + this.cuentaPagadora.getSaldo());
+
+            } catch (FalloTransaccionException e) {
+                System.out.println("PAGO FALLIDO: " + e.getMessage());
+            }
+
         } else {
             System.out.println("ERROR: No se especificó una cuenta para pagar el servicio.");
         }
