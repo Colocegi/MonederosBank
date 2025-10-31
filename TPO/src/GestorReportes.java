@@ -24,26 +24,21 @@ public class GestorReportes implements IReportable {
         }
     }
 
-    // Implementación de IReportable
     @Override
-    public String generarReporte() {
-        String reporte = "";
+    public void generarReporte() {
+        System.out.println("========== REPORTE DEL BANCO ==========");
+        System.out.println("Banco: " + banco.getNombre());
+        System.out.println("Código: " + banco.getCodigo());
+        System.out.println("=======================================\n");
 
-        reporte += "========== REPORTE DEL BANCO ==========\n";
-        reporte += "Banco: " + banco.getNombre() + "\n";
-        reporte += "Código: " + banco.getCodigo() + "\n";
-        reporte += "=======================================\n\n";
-
-        reporte += "CLIENTES REGISTRADOS: " + banco.getListaClientes().size() + "\n";
+        System.out.println("CLIENTES REGISTRADOS: " + banco.getListaClientes().size());
         for (Cliente cliente : banco.getListaClientes()) {
-            reporte += "- " + cliente.getNombre() + " " + cliente.getApellido() + "\n";
+            System.out.println("- " + cliente.getNombre() + " " + cliente.getApellido());
         }
 
-        reporte += "\nCUENTAS REGISTRADAS: " + banco.getListaCuentas().size() + "\n";
+        System.out.println("\nCUENTAS REGISTRADAS: " + banco.getListaCuentas().size());
         for (Cuenta cuenta : banco.getListaCuentas()) {
-            reporte += "- Cuenta #" + cuenta.getNumCuenta() + " | Saldo: $" + cuenta.getSaldo() + "\n";
+            System.out.println("- Cuenta #" + cuenta.getNumCuenta() + " | Saldo: $" + cuenta.getSaldo());
         }
-
-        return reporte;
     }
 }
