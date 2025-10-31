@@ -7,7 +7,6 @@ public class Banco {
     private List<Cliente> listaClientes;
     private List<Cuenta> listaCuentas;
 
-    // Constructor
     public Banco(String nombre, String codigo) {
         this.nombre = nombre;
         this.codigo = codigo;
@@ -15,32 +14,15 @@ public class Banco {
         this.listaCuentas = new ArrayList<>();
     }
 
-    // Getters y Setters
-    public String getNombre() {
-        return nombre;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
 
-    public String getCodigo() {
-        return codigo;
-    }
+    public List<Cliente> getListaClientes() { return new ArrayList<>(listaClientes); }
+    public List<Cuenta> getListaCuentas() { return new ArrayList<>(listaCuentas); }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public List<Cliente> getListaClientes() {
-        return listaClientes;
-    }
-
-    public List<Cuenta> getListaCuentas() {
-        return listaCuentas;
-    }
-
-    // Métodos para agregar clientes y cuentas
     public void agregarCliente(Cliente cliente) {
         this.listaClientes.add(cliente);
     }

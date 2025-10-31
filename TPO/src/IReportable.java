@@ -1,4 +1,10 @@
 public interface IReportable {
-    //Falta cambiarle el modo a generarReporte
-    void generarReporte();
+
+    enum ReportFormat { TEXTO, CSV }
+
+    /**
+     * Genera el reporte del banco según el formato especificado.
+     * Devuelve el contenido como String.
+     */
+    String generarReporte(ReportFormat formato);
 }
