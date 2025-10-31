@@ -37,5 +37,5 @@ public abstract class Cuenta {
         this.saldo += monto;
     }
 
-    protected abstract boolean debitar(double monto);
+    protected abstract void debitar(double monto);
 }

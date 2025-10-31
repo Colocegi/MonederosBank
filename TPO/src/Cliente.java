@@ -32,7 +32,7 @@ public class Cliente {
         this.cuenta = cuenta;
     }
 
-    public double obtenerSaldo() {
+    public double obtenerSaldoTotal() {
         return cuenta != null ? cuenta.getSaldo() : 0.0;
     }
 }
