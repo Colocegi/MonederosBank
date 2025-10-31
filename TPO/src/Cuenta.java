@@ -1,47 +1,41 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Cuenta {
     protected int numCuenta;
     protected double saldo;
+    protected String tipo;
+    protected List<Transaccion> listaTransacciones;
     protected Cliente cliente;
-    private Cuenta tipo;
 
-    public Cuenta(int numCuenta, Cliente cliente) {
+    public Cuenta(int numCuenta, String tipo, int idCliente, String nombre, String apellido) {
         this.numCuenta = numCuenta;
-        this.cliente = new cliente c1 = new Cliente();
+        this.tipo = tipo;
         this.saldo = 0.0;
+        this.listaTransacciones = new ArrayList<>();
+        // Creación del cliente dentro de la cuenta
+        this.cliente = new Cliente(idCliente, nombre, apellido, this);
     }
 
     public int getNumCuenta() {
         return numCuenta;
     }
 
-    public void setNumCuenta(int numCuenta) {
-        this.numCuenta = numCuenta;
-    }
-
     public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+    public String getTipo() {
+        return tipo;
     }
 
     public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    protected void acreditar(double monto) {
+        this.saldo += monto;
     }
 
-    public Cuenta getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(Cuenta tipo) {
-        this.tipo = tipo;
-    }
-
-    public abstract void acreditar(double monto);
-    public abstract boolean debitar(double monto);
+    protected abstract boolean debitar(double monto);
 }
