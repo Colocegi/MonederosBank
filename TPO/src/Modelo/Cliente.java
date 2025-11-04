@@ -1,3 +1,8 @@
+package Modelo;
+
+import Modelo.Cuenta;
+import Modelo.ICliente;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,7 +10,7 @@ public class Cliente implements ICliente {
     private int idCliente;
     private String nombre;
     private String apellido;
-    private List<Cuenta> cuentas; 
+    private List<Cuenta> cuentas;
 
     public Cliente(int idCliente, String nombre, String apellido) {
         this.idCliente = idCliente;

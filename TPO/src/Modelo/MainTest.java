@@ -1,4 +1,4 @@
-import java.util.List; // Necesario si no están en el mismo paquete, aunque no se usa directamente en este main
+package Modelo;
 
 /**
  * Clase principal (Main) para ejecutar la simulación bancaria.
