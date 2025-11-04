@@ -1,46 +1,42 @@
 package Modelo;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException; // Necesitamos estas 3 para leer archivos
+// Importa estas clases en lugar de FileReader
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
-// Esta clase se encarga de leer el .txt y validar al usuario.
-// Es "prima" de tu GestorReportes, pero para usuarios.
 public class GestorUsuario {
 
-    // 1. Definimos dónde estará el archivo .txt
-    private String rutaArchivo = "datos/usuario.txt";
+    // 1. Esta ruta ahora es relativa A LA RAÍZ de 'src'
+    private String rutaArchivo = "datos/usuario.txt"; // (No pongas 'src/' aquí)
 
-    // Este es el método principal que usará el Controlador.
-    // Recibe el objeto Usuario (con nombre y clave) y dice si es válido o no.
     public boolean autenticar(Usuario usuario) {
-
-        // 2. Preparamos el String exacto que queremos encontrar en el archivo
         String credencialesABuscar = usuario.getNombre() + "," + usuario.getClave();
 
-        // 3. Usamos BufferedReader y FileReader (el concepto de tu profe)
-        // Este "try-with-resources" abre el archivo y se asegura de cerrarlo
-        // automáticamente, incluso si hay un error.
-        try (BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
+        // 2. Usamos el ClassLoader para obtener el archivo como un "recurso"
+        // Esto busca 'datos/usuario.txt' dentro de 'src' (o del .jar compilado)
+        InputStream inputStream = GestorUsuario.class.getClassLoader().getResourceAsStream(rutaArchivo);
 
-            String linea;
-
-            // 4. Leemos el archivo línea por línea
-            while ((linea = reader.readLine()) != null) {
-
-                // 5. Comparamos la línea actual del archivo con la que buscamos
-                if (linea.equals(credencialesABuscar)) {
-                    return true; // ¡Coincide! El usuario es válido.
-                }
-            }
-
-        } catch (IOException e) {
-            // 6. Si hay un error (ej: no se encuentra 'datos/usuario.txt')
-            System.err.println("Error al leer el archivo de usuarios: " + e.getMessage());
-            return false; // Por seguridad, no damos acceso
+        // 3. Verificamos si el archivo se encontró
+        if (inputStream == null) {
+            System.err.println("Error: No se pudo encontrar el archivo de recurso: " + rutaArchivo);
+            return false;
         }
 
-        // 7. Si se leyó todo el archivo y no se encontró al usuario
+        // 4. Usamos 'InputStreamReader' para leer el flujo de datos (en lugar de FileReader)
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                if (linea.equals(credencialesABuscar)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo de usuarios: " + e.getMessage());
+            return false;
+        }
+
         return false;
     }
 }
