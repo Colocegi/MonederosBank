@@ -1,17 +1,45 @@
 package Modelo;
 
-public class Cliente implements ICliente{
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Representa a un cliente del banco.
+ * Contiene sus datos personales y una lista de sus cuentas.
+ */
+public class Cliente implements ICliente {
+
+    // --- Atributos ---
     private int idCliente;
     private String nombre;
     private String apellido;
-    private Cuenta cuenta; // referencia a su cuenta
 
-    public Cliente(int idCliente, String nombre, String apellido, Cuenta cuenta) {
+    // Un cliente "tiene" una lista de cuentas
+    private List<Cuenta> listaCuentas;
+
+    // --- Constructor ---
+    // Este es el constructor que usas en MainTest
+    public Cliente(int idCliente, String nombre, String apellido) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.cuenta = cuenta;
+
+        // Importante: Inicializamos la lista para poder agregar cuentas
+        this.listaCuentas = new ArrayList<>();
     }
+
+    // --- Métodos ---
+
+    /**
+     * Añade una cuenta (Corriente o Ahorro) a la lista de cuentas del cliente.
+     * Este método lo usas en MainTest.
+     */
+    public void agregarCuenta(Cuenta cuenta) {
+        this.listaCuentas.add(cuenta);
+    }
+
+    // --- Getters ---
+    // (Estos son los métodos que usa tu GestorReportes)
 
     public int getIdCliente() {
         return idCliente;
@@ -25,16 +53,19 @@ public class Cliente implements ICliente{
         return apellido;
     }
 
-    public Cuenta getCuenta() {
-        return cuenta;
+    /**
+     * Devuelve la lista de cuentas que le pertenecen a este cliente.
+     */
+    public List<Cuenta> getListaCuentas() {
+        return listaCuentas;
     }
 
-    // Este setter podría omitirse si querés que sea inmutable
-    protected void setCuenta(Cuenta cuenta) {
-        this.cuenta = cuenta;
+    public Cuenta[] getCuentas() {
+        return new Cuenta[0];
     }
 
+    @Override
     public double obtenerSaldoTotal() {
-        return cuenta != null ? cuenta.getSaldo() : 0.0;
+        return 0;
     }
 }
