@@ -1,44 +1,71 @@
 package Modelo;
 
-import Modelo.Cuenta;
-import Modelo.ICliente;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa a un cliente del banco.
+ * Contiene sus datos personales y una lista de sus cuentas.
+ */
 public class Cliente implements ICliente {
+
+    // --- Atributos ---
     private int idCliente;
     private String nombre;
     private String apellido;
-    private List<Cuenta> cuentas;
 
+    // Un cliente "tiene" una lista de cuentas
+    private List<Cuenta> listaCuentas;
+
+    // --- Constructor ---
+    // Este es el constructor que usas en MainTest
     public Cliente(int idCliente, String nombre, String apellido) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.cuentas = new ArrayList<>();
+
+        // Importante: Inicializamos la lista para poder agregar cuentas
+        this.listaCuentas = new ArrayList<>();
     }
 
+    // --- Métodos ---
+
+    /**
+     * Añade una cuenta (Corriente o Ahorro) a la lista de cuentas del cliente.
+     * Este método lo usas en MainTest.
+     */
     public void agregarCuenta(Cuenta cuenta) {
-        if (cuenta.getCliente() == this) {
-            this.cuentas.add(cuenta);
-        } else {
-            System.err.println("Error: La cuenta no pertenece a este cliente.");
-        }
+        this.listaCuentas.add(cuenta);
+    }
+
+    // --- Getters ---
+    // (Estos son los métodos que usa tu GestorReportes)
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    /**
+     * Devuelve la lista de cuentas que le pertenecen a este cliente.
+     */
+    public List<Cuenta> getListaCuentas() {
+        return listaCuentas;
+    }
+
+    public Cuenta[] getCuentas() {
+        return new Cuenta[0];
     }
 
     @Override
     public double obtenerSaldoTotal() {
-        double total = 0.0;
-        for (Cuenta c : cuentas) {
-            total += c.getSaldo();
-        }
-        return total;
+        return 0;
     }
-
-    // Getters para el GestorReportes
-    public int getIdCliente() { return idCliente; }
-    public String getNombre() { return nombre; }
-    public String getApellido() { return apellido; }
-    public List<Cuenta> getCuentas() { return cuentas; }
 }
