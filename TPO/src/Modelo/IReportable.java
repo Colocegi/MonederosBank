@@ -9,4 +9,5 @@ public interface IReportable {
      * Devuelve el contenido como String.
      */
     String generarReporte(ReportFormat formato);
+    
 }
