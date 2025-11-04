@@ -1,89 +1,99 @@
 package Vista;
 
-// --- IMPORTACIONES ---
-// Necesitamos al Controlador (para validar) y la Simulación (para iniciarla)
 import Controlador.ControladorUsuario;
-import Modelo.SimulacionBanco;
-
-// Estas son las librerías de Java para hacer ventanas (se llaman Swing)
-import javax.swing.*; // Para la ventana (JFrame), botones (JButton), etc.
-import java.awt.GridLayout; // Para organizar las cosas en la ventana
+import Modelo.*;
+import javax.swing.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener; // Para "escuchar" el clic del botón
+import java.awt.event.ActionListener;
 
-// Nuestra clase "es" una Ventana (por eso 'extends JFrame')
+/**
+ * Ventana de inicio de sesión del sistema bancario.
+ * Valida las credenciales del usuario y, si son correctas,
+ * abre la interfaz principal del banco (BancoView).
+ */
 public class FormAcceso extends JFrame {
 
-    // --- 1. DECLARAR LOS COMPONENTES ---
-    // Guardamos los componentes visuales como variables de la clase
     private JTextField txtUsuario;
     private JPasswordField passClave;
     private JButton btnIngresar;
 
-    // La Vista tiene una "conexión" al Controlador
     private ControladorUsuario controlador;
 
-    // --- 2. EL CONSTRUCTOR (Se ejecuta cuando creamos la ventana) ---
     public FormAcceso() {
-
-        // Creamos la instancia del Controlador que hicimos en el Paso 4
         this.controlador = new ControladorUsuario();
 
-        // --- Configuración básica de la ventana ---
-        setTitle("Acceso al Simulador Bancario"); // Título
-        setSize(350, 150); // Tamaño (ancho, alto)
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Que el programa termine si cerramos esta ventana
-        setLocationRelativeTo(null); // Centrarla en la pantalla
+        // Configuración general de la ventana
+        setTitle("Acceso al Sistema Bancario");
+        setSize(350, 160);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
 
-        // --- Organización (Layout) ---
-        // Le decimos a la ventana cómo ordenar las cosas:
-        // En una "grilla" de 3 filas y 2 columnas
-        setLayout(new GridLayout(3, 2, 10, 10)); // (filas, cols, espacio horiz, espacio vert)
+        setLayout(new GridLayout(3, 2, 10, 10));
 
-        // --- 3. CREAR Y AÑADIR LOS COMPONENTES ---
-
-        // Fila 1:
-        add(new JLabel("  Usuario:")); // Etiqueta
-        txtUsuario = new JTextField(); // Campo de texto
+        // --- Componentes ---
+        add(new JLabel("  Usuario:"));
+        txtUsuario = new JTextField();
         add(txtUsuario);
 
-        // Fila 2:
-        add(new JLabel("  Clave:")); // Etiqueta
-        passClave = new JPasswordField(); // Campo de clave (oculta los caracteres)
+        add(new JLabel("  Clave:"));
+        passClave = new JPasswordField();
         add(passClave);
 
-        // Fila 3:
-        btnIngresar = new JButton("Ingresar"); // Botón
-        add(new JLabel()); // Un espacio en blanco (para que el botón quede a la derecha)
+        btnIngresar = new JButton("Ingresar");
+        add(new JLabel()); // espacio vacío
         add(btnIngresar);
 
-        // --- 4. LA ACCIÓN DEL BOTÓN (¡La parte clave!) ---
-        // Le decimos al botón qué hacer cuando le hagan clic
+        // --- Acción del botón ---
         btnIngresar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // a. Obtenemos el texto que el usuario escribió
-                String nombre = txtUsuario.getText();
-                String clave = new String(passClave.getPassword()); // Se obtiene así del campo de clave
+                String nombre = txtUsuario.getText().trim();
+                String clave = new String(passClave.getPassword()).trim();
 
-                // b. Le pasamos los datos al Controlador (Paso 4)
                 String resultado = controlador.validarIngreso(nombre, clave);
 
-                // c. Vemos qué nos respondió el Controlador
                 if (resultado.equals("ACCESO_CONCEDIDO")) {
+                    dispose(); // cerrar login
 
-                    // SI ES CORRECTO:
-                    // 1. Cerramos esta ventana de login
-                    dispose();
+                    SwingUtilities.invokeLater(() -> {
+                        try {
+                            // --- Crear la vista principal ---
+                            BancoView bancoView = new BancoView();
 
-                    // 2. Creamos e iniciamos la Simulación (Paso 1)
-                    SimulacionBanco simulacion = new SimulacionBanco();
-                    simulacion.iniciar();
+                            // --- Crear cliente logueado ---
+                            Cliente clienteDemo = new Cliente(1, nombre, "");
+
+                            // --- Crear cuenta corriente y asociarla al cliente ---
+                            CuentaCorriente cuentaDemo = new CuentaCorriente(1001, clienteDemo, 20000);
+                            // 1001 = número de cuenta, 20000 = límite de giro descubierto
+                            cuentaDemo.acreditar(50000); // saldo inicial
+
+                            clienteDemo.agregarCuenta(cuentaDemo);
+
+                            // --- Cargar cliente en la vista ---
+                            bancoView.setClienteActual(clienteDemo);
+
+                            // --- Mostrar ventana principal ---
+                            JFrame ventanaPrincipal = new JFrame("Banco Digital - Panel Principal");
+                            ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            ventanaPrincipal.setContentPane(bancoView.getMainPanel());
+                            ventanaPrincipal.pack();
+                            ventanaPrincipal.setSize(800, 600);
+                            ventanaPrincipal.setLocationRelativeTo(null);
+                            ventanaPrincipal.setVisible(true);
+
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Error al cargar la vista principal: " + ex.getMessage(),
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            ex.printStackTrace();
+                        }
+                    });
 
                 } else {
-                    // SI ES INCORRECTO:
-                    // Mostramos una ventana emergente con el error
                     JOptionPane.showMessageDialog(null, resultado);
                 }
             }
