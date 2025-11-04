@@ -1,3 +1,5 @@
+package Modelo;
+
 public interface IReportable {
 
     enum ReportFormat { TEXTO, CSV }

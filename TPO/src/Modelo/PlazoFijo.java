@@ -1,3 +1,5 @@
+package Modelo;
+
 public class PlazoFijo {
     // Atributos protected
     protected int idPlazo;

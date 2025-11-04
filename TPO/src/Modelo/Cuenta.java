@@ -1,3 +1,5 @@
+package Modelo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public abstract class Cuenta {
     protected List<Transaccion> listaTransacciones;
     protected ICliente cliente; // Referencia al cliente
 
-    // Constructor CORREGIDO: Recibe la instancia de Cliente.
+    // Constructor CORREGIDO: Recibe la instancia de Modelo.Cliente.
     public Cuenta(int numCuenta, String tipo, ICliente cliente) {
         this.numCuenta = numCuenta;
         this.tipo = tipo;

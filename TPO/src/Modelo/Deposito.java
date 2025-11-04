@@ -1,3 +1,5 @@
+package Modelo;
+
 public class Deposito extends Transaccion {
 
     public Depositar(String idTransaccion, double montoDeposito, String fecha) {

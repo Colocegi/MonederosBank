@@ -1,3 +1,5 @@
+package Modelo;
+
 public class Servicio implements IOperacionBancaria {
 
     private String idServicio;
@@ -47,16 +49,16 @@ public class Servicio implements IOperacionBancaria {
     @Override
     public void ejecutar() {
         System.out.println("===== PAGANDO SERVICIO =====");
-        System.out.println("Servicio ID: " + this.idServicio);
+        System.out.println("Modelo.Servicio ID: " + this.idServicio);
         System.out.println("Monto: $" + this.monto);
         System.out.println("Fecha Límite: " + this.fechaPago);
 
         if (this.cuentaPagadora != null) {
             double saldoAnterior = this.cuentaPagadora.getSaldo();
-            System.out.println("Pagando desde Cuenta: " + this.cuentaPagadora.getNumCuenta());
+            System.out.println("Pagando desde Modelo.Cuenta: " + this.cuentaPagadora.getNumCuenta());
             System.out.println("Saldo (antes): $" + saldoAnterior);
 
-            // Llamamos a 'debitar' de la cuenta (p.ej. CuentaCorriente)
+            // Llamamos a 'debitar' de la cuenta (p.ej. Modelo.CuentaCorriente)
             this.cuentaPagadora.debitar(this.monto);
 
             // Verificamos si el débito fue exitoso

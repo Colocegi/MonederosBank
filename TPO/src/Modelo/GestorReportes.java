@@ -1,3 +1,5 @@
+package Modelo;
+
 import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,7 +22,7 @@ public class GestorReportes implements IReportable {
 
     private static class TextReportFormatter implements ReportFormatter {
         @Override public String header(Banco b) {
-            return "Banco: " + b.getNombre() + " (" + b.getCodigo() + ")";
+            return "Modelo.Banco: " + b.getNombre() + " (" + b.getCodigo() + ")";
         }
         @Override public String seccionClientesTitulo() { return "=== CLIENTES ==="; }
         @Override public String seccionCuentasTitulo()  { return "=== CUENTAS  ==="; }
@@ -28,7 +30,7 @@ public class GestorReportes implements IReportable {
             return "ID: " + c.getIdCliente() + " | " + c.getNombre() + " " + c.getApellido();
         }
         @Override public String cuenta(Cuenta c) {
-            return "Cuenta #" + c.getNumCuenta() + " | Saldo: $" + c.getSaldo();
+            return "Modelo.Cuenta #" + c.getNumCuenta() + " | Saldo: $" + c.getSaldo();
         }
     }
 

@@ -1,3 +1,5 @@
+package Modelo;
+
 public class Cliente implements ICliente{
     private int idCliente;
     private String nombre;

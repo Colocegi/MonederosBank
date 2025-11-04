@@ -1,3 +1,5 @@
+package Modelo;
+
 public class Transferencia extends Transaccion {
    
     protected String idDestinatario;

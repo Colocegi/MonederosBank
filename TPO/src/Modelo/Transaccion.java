@@ -1,3 +1,5 @@
+package Modelo;
+
 public abstract class Transaccion implements IOperacionBancaria {
 
     protected String idTransaccion;
