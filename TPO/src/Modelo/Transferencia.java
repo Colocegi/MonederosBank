@@ -11,22 +11,12 @@ public class Transferencia extends Transaccion {
         this.idDestinatario = idDestinatario;
     }
 
-    public String getIdDestinatario() {
-        return idDestinatario;
-    }
-
-    public void setIdDestinatario(String idDestinatario) {
-        this.idDestinatario = idDestinatario;
-    }
-
-    public Cuenta getCuentaOrigen() {
-        return cuentaOrigen;
-    }
-
-    public void setCuentaOrigen(Cuenta cuentaOrigen) {
-        this.cuentaOrigen = cuentaOrigen;
-    }
-
+    // Getters y Setters...
+    public String getIdDestinatario() { return idDestinatario; }
+    public void setIdDestinatario(String idDestinatario) { this.idDestinatario = idDestinatario; }
+    public Cuenta getCuentaOrigen() { return cuentaOrigen; }
+    public void setCuentaOrigen(Cuenta cuentaOrigen) { this.cuentaOrigen = cuentaOrigen; }
+    
     // --- Implementación de métodos abstractos ---
     @Override
     protected void operar() {
@@ -40,23 +30,18 @@ public class Transferencia extends Transaccion {
             
             double saldoAnterior = this.cuentaOrigen.getSaldo();
             System.out.println("Saldo Origen (antes): $" + saldoAnterior);
-            this.cuentaOrigen.debitar(this.monto); //
-
-            // Verificamos si el débito fue exitoso 
-            if (this.cuentaOrigen.getSaldo() < saldoAnterior) {
-                 System.out.println("DEBITO EXITOSO: Se debitaron $" + this.monto + " de la cuenta " + this.cuentaOrigen.getNumCuenta());
-                 System.out.println("Nuevo Saldo: $" + this.cuentaOrigen.getSaldo());
-                 
-            } else {
-                 System.out.println("DEBITO FALLIDO: Saldo insuficiente o excede el límite de giro.");
-            }
 
             try {
-            this.cuentaOrigen.debitar(this.monto); 
-            System.out.println("DEBITO EXITOSO. Muevo fondos a Destinatario: " + this.idDestinatario);
-            
+                // LLAMADA ÚNICA: Intentamos debitar el monto
+                this.cuentaOrigen.debitar(this.monto); 
+                
+                // Si llegamos aquí, el débito fue exitoso
+                System.out.println("DEBITO EXITOSO: Se debitaron $" + this.monto + " de la cuenta " + this.cuentaOrigen.getNumCuenta());
+                System.out.println("Nuevo Saldo: $" + this.cuentaOrigen.getSaldo());
+                System.out.println("Muevo fondos a Destinatario: " + this.idDestinatario);
+                
             } catch (FalloTransaccionException e) {
-                // CAPTURA EL ERROR
+                // CAPTURA EL ERROR y no permite que se debite dos veces
                 System.out.println("TRANSFERENCIA FALLIDA: " + e.getMessage());
             }
 
