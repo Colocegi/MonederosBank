@@ -1,41 +1,40 @@
 package Modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Cliente implements ICliente {
+public class Cliente implements ICliente{
     private int idCliente;
     private String nombre;
     private String apellido;
-    private List<Cuenta> cuentas; 
+    private Cuenta cuenta; // referencia a su cuenta
 
-    public Cliente(int idCliente, String nombre, String apellido) {
+    public Cliente(int idCliente, String nombre, String apellido, Cuenta cuenta) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.cuentas = new ArrayList<>();
+        this.cuenta = cuenta;
     }
 
-    public void agregarCuenta(Cuenta cuenta) {
-        if (cuenta.getCliente() == this) {
-            this.cuentas.add(cuenta);
-        } else {
-            System.err.println("Error: La cuenta no pertenece a este cliente.");
-        }
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    @Override
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
+
+    // Este setter podría omitirse si querés que sea inmutable
+    protected void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+    }
+
     public double obtenerSaldoTotal() {
-        double total = 0.0;
-        for (Cuenta c : cuentas) {
-            total += c.getSaldo();
-        }
-        return total;
+        return cuenta != null ? cuenta.getSaldo() : 0.0;
     }
-
-    // Getters para el GestorReportes
-    public int getIdCliente() { return idCliente; }
-    public String getNombre() { return nombre; }
-    public String getApellido() { return apellido; }
-    public List<Cuenta> getCuentas() { return cuentas; }
 }

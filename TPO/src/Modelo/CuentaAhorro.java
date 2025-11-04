@@ -26,7 +26,6 @@ public class CuentaAhorro extends Cuenta{
     protected void debitar(double monto) {
         if(this.saldo >= monto){
             this.saldo -= monto;
-            // Aquí iría el registro de la Modelo.Transaccion si fuera necesario
         } else {
             // Reemplazo del print por el lanzamiento de la excepción
             throw new FalloTransaccionException("Saldo insuficiente para debitar $" + monto + " de la Modelo.Cuenta de Ahorro.");

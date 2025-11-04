@@ -1,11 +1,13 @@
 package Modelo;
 
+import Modelo.Cuenta;
+
 public class Servicio implements IOperacionBancaria {
 
     private String idServicio;
     private String fechaPago; 
     private double monto;
-    private Cuenta cuentaPagadora; 
+    private Cuenta cuentaPagadora;
 
     public Servicio(String idServicio, String fechaPago, double monto, Cuenta cuentaPagadora) {
         this.idServicio = idServicio;
