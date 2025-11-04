@@ -5,7 +5,7 @@ public class Banco {
     private String nombre;
     private String codigo;
     private List<Cliente> listaClientes;
-    private List<Cuenta> listaCuentas;
+    private List<Cuenta> listaCuentas; 
 
     public Banco(String nombre, String codigo) {
         this.nombre = nombre;
@@ -14,20 +14,21 @@ public class Banco {
         this.listaCuentas = new ArrayList<>();
     }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public String getCodigo() { return codigo; }
-    public void setCodigo(String codigo) { this.codigo = codigo; }
-
-    public List<Cliente> getListaClientes() { return new ArrayList<>(listaClientes); }
-    public List<Cuenta> getListaCuentas() { return new ArrayList<>(listaCuentas); }
-
     public void agregarCliente(Cliente cliente) {
-        this.listaClientes.add(cliente);
+        if (!this.listaClientes.contains(cliente)) {
+            this.listaClientes.add(cliente);
+            // Agrega las cuentas del cliente a la lista global del banco
+            for (Cuenta c : cliente.getCuentas()) {
+                if (!this.listaCuentas.contains(c)) {
+                    this.listaCuentas.add(c);
+                }
+            }
+        }
     }
 
-    public void agregarCuenta(Cuenta cuenta) {
-        this.listaCuentas.add(cuenta);
-    }
+    // Getters para el GestorReportes
+    public String getNombre() { return nombre; }
+    public String getCodigo() { return codigo; }
+    public List<Cliente> getListaClientes() { return listaClientes; }
+    public List<Cuenta> getListaCuentas() { return listaCuentas; }
 }
