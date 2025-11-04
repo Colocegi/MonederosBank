@@ -23,7 +23,7 @@ public class CuentaAhorro extends Cuenta{
     }
 
     @Override
-    protected void debitar(double monto) {
+    public void debitar(double monto) {
         if(this.saldo >= monto){
             this.saldo -= monto;
         } else {

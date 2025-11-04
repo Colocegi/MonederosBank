@@ -13,7 +13,7 @@ public class CuentaCorriente extends Cuenta {
 
     // Método debitar: Implementación consistente con el método abstracto 'protected'
     @Override
-    protected void debitar(double monto) {
+    public void debitar(double monto) {
         if (this.saldo - monto >= -this.limiteGiroDescubierto) {
             this.saldo -= monto;
             // Aquí iría el registro de la Modelo.Transaccion si fuera necesario
