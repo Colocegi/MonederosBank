@@ -1,102 +1,100 @@
 package Vista;
 
-import Controlador.ControladorUsuario;
 import Modelo.*;
 import javax.swing.*;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
-/**
- * Ventana de inicio de sesión del sistema bancario.
- * Valida las credenciales del usuario y, si son correctas,
- * abre la interfaz principal del banco (BancoView).
- */
 public class FormAcceso extends JFrame {
 
     private JTextField txtUsuario;
     private JPasswordField passClave;
     private JButton btnIngresar;
+    private JButton btnSalir;
 
-    private ControladorUsuario controlador;
+    private Banco banco;
 
     public FormAcceso() {
-        this.controlador = new ControladorUsuario();
-
-        // Configuración general de la ventana
-        setTitle("Acceso al Sistema Bancario");
-        setSize(350, 160);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Acceso - MonederosBank");
+        setSize(400, 250);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setLayout(new GridLayout(3, 2, 10, 10));
+        JPanel panelAcceso = new JPanel(new GridLayout(4, 2, 10, 10));
+        panelAcceso.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // --- Componentes ---
-        add(new JLabel("  Usuario:"));
+        JLabel lblUsuario = new JLabel("Usuario:");
         txtUsuario = new JTextField();
-        add(txtUsuario);
 
-        add(new JLabel("  Clave:"));
+        JLabel lblClave = new JLabel("Contraseña:");
         passClave = new JPasswordField();
-        add(passClave);
 
         btnIngresar = new JButton("Ingresar");
-        add(new JLabel()); // espacio vacío
-        add(btnIngresar);
+        btnSalir = new JButton("Salir");
 
-        // --- Acción del botón ---
-        btnIngresar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        panelAcceso.add(lblUsuario);
+        panelAcceso.add(txtUsuario);
+        panelAcceso.add(lblClave);
+        panelAcceso.add(passClave);
+        panelAcceso.add(new JLabel());
+        panelAcceso.add(new JLabel());
+        panelAcceso.add(btnIngresar);
+        panelAcceso.add(btnSalir);
 
-                String nombre = txtUsuario.getText().trim();
-                String clave = new String(passClave.getPassword()).trim();
+        setContentPane(panelAcceso);
 
-                String resultado = controlador.validarIngreso(nombre, clave);
+        // Crear banco y cargar usuarios desde archivo
+        banco = new Banco("MonederosBank", "MB001");
+        banco.cargarClientesDesdeArchivo("C:\\Users\\leanc\\OneDrive\\Documentos\\GitHub\\MonederosBank\\TPO\\src\\datos\\usuario.txt");
 
-                if (resultado.equals("ACCESO_CONCEDIDO")) {
-                    dispose(); // cerrar login
+        btnIngresar.addActionListener(this::loginAction);
+        btnSalir.addActionListener(e -> System.exit(0));
+    }
 
-                    SwingUtilities.invokeLater(() -> {
-                        try {
-                            // --- Crear la vista principal ---
-                            BancoView bancoView = new BancoView();
+    private void loginAction(ActionEvent e) {
+        String usuario = txtUsuario.getText().trim();
+        String clave = new String(passClave.getPassword()).trim();
 
-                            // --- Crear cliente logueado ---
-                            Cliente clienteDemo = new Cliente(1, nombre, "");
+        if (validarCredenciales(usuario, clave)) {
+            Cliente clienteActual = banco.buscarClientePorNombre(usuario);
+            if (clienteActual != null) {
+                dispose();
+                BancoView vista = new BancoView();
+                vista.setBanco(banco);
+                vista.setClienteActual(clienteActual);
 
-                            // --- Crear cuenta corriente y asociarla al cliente ---
-                            CuentaCorriente cuentaDemo = new CuentaCorriente(1001, clienteDemo, 20000);
-                            // 1001 = número de cuenta, 20000 = límite de giro descubierto
-                            cuentaDemo.acreditar(50000); // saldo inicial
+                JFrame frame = new JFrame("MonederosBank");
+                frame.setContentPane(vista.getMainPanel());
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Cliente no encontrado.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
+        }
+    }
 
-                            clienteDemo.agregarCuenta(cuentaDemo);
-
-                            // --- Cargar cliente en la vista ---
-                            bancoView.setClienteActual(clienteDemo);
-
-                            // --- Mostrar ventana principal ---
-                            JFrame ventanaPrincipal = new JFrame("Banco Digital - Panel Principal");
-                            ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            ventanaPrincipal.setContentPane(bancoView.getMainPanel());
-                            ventanaPrincipal.pack();
-                            ventanaPrincipal.setSize(800, 600);
-                            ventanaPrincipal.setLocationRelativeTo(null);
-                            ventanaPrincipal.setVisible(true);
-
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Error al cargar la vista principal: " + ex.getMessage(),
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            ex.printStackTrace();
-                        }
-                    });
-
-                } else {
-                    JOptionPane.showMessageDialog(null, resultado);
+    private boolean validarCredenciales(String nombre, String clave) {
+        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\leanc\\OneDrive\\Documentos\\GitHub\\MonederosBank\\TPO\\src\\datos\\usuario.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",");
+                if (partes.length == 2) {
+                    String usuarioArchivo = partes[0].trim();
+                    String claveArchivo = partes[1].trim();
+                    if (usuarioArchivo.equalsIgnoreCase(nombre) && claveArchivo.equals(clave)) {
+                        return true;
+                    }
                 }
             }
-        });
+        } catch (Exception ex) {
+            System.err.println("Error validando usuarios: " + ex.getMessage());
+        }
+        return false;
     }
 }
