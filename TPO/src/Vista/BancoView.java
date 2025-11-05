@@ -56,6 +56,8 @@ public class BancoView {
     private JLabel montoInvertirPfLbl;
     private JLabel PlazoDiasPfLbl;
     private JLabel idServicioLbl;
+    private JButton CobrarMantenimientoButton;
+    private JButton CalcularInteresButton;
 
     // --- Modelo asociado ---
     private Banco banco;
@@ -172,6 +174,32 @@ public class BancoView {
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+        // === COBRAR MANTENIMIENTO ===
+        CobrarMantenimientoButton.addActionListener(e -> {
+            if (cuentaActual instanceof CuentaCorriente cc) {
+                try {
+                    cc.cobrarMantenimiento();
+                    JOptionPane.showMessageDialog(null, "Mantenimiento cobrado correctamente ($50).");
+                    actualizarDatosCuenta();
+                } catch (FalloTransaccionException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esta operación solo está disponible para cuentas corrientes.");
+            }
+        });
+
+// === CALCULAR INTERESES ===
+        CalcularInteresButton.addActionListener(e -> {
+            if (cuentaActual instanceof CuentaAhorro ca) {
+                ca.calcularIntereses();
+                JOptionPane.showMessageDialog(null, "Intereses calculados y acreditados correctamente.");
+                actualizarDatosCuenta();
+            } else {
+                JOptionPane.showMessageDialog(null, "Esta operación solo está disponible para cuentas de ahorro.");
+            }
+        });
+
     }
 
     // --------- Métodos públicos para vincular modelo ---------

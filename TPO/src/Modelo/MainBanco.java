@@ -1,7 +1,8 @@
 package Modelo;
 
-import Vista.FormInicio;
+import Vista.FormAcceso;
 import javax.swing.*;
+import java.text.Normalizer;
 
 public class MainBanco {
     public static void main(String[] args) {
@@ -12,7 +13,7 @@ public class MainBanco {
                 e.printStackTrace();
             }
 
-            FormInicio inicio = new FormInicio();
+            FormAcceso inicio = new FormAcceso();
             inicio.setVisible(true);
         });
     }
