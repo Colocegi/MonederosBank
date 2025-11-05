@@ -1,6 +1,6 @@
-package Modelo;
+package Modelo; // (O donde esté tu MainBanco)
 
-import Vista.FormAcceso;
+import Vista.FormInicio; // <-- CAMBIADO
 import javax.swing.*;
 
 public class MainBanco {
@@ -12,7 +12,8 @@ public class MainBanco {
                 e.printStackTrace();
             }
 
-            FormAcceso inicio = new FormAcceso();
+            // AHORA INICIA EN LA BIENVENIDA
+            FormInicio inicio = new FormInicio(); // <-- CAMBIADO
             inicio.setVisible(true);
         });
     }

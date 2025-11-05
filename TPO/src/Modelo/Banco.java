@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 
 public class Banco {
     private String nombre;
@@ -31,7 +34,16 @@ public class Banco {
      * Alterna entre cuentas corrientes y de ahorro.
      */
     public void cargarClientesDesdeArchivo(String rutaArchivo) {
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+        // Usamos el ClassLoader para una ruta relativa
+        InputStream inputStream = Banco.class.getClassLoader().getResourceAsStream(rutaArchivo);
+
+        if (inputStream == null) {
+            System.err.println("Error: No se pudo encontrar el archivo de recurso: " + rutaArchivo);
+            return;
+        }
+
+        // Usamos InputStreamReader en lugar de FileReader
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String linea;
             int id = 1;
             boolean cuentaCorriente = true;
@@ -40,9 +52,10 @@ public class Banco {
                 String[] partes = linea.split(",");
                 if (partes.length == 2) {
                     String nombre = partes[0].trim();
-                    String clave = partes[1].trim();
+                    // OJO: La clave está en partes[1], la usamos para el apellido (como en tu código)
+                    String claveComoApellido = partes[1].trim();
 
-                    Cliente cliente = new Cliente(id, nombre, clave);
+                    Cliente cliente = new Cliente(id, nombre, claveComoApellido); // Usamos la clave como apellido de demo
 
                     if (cuentaCorriente) {
                         CuentaCorriente cuenta = new CuentaCorriente(1000 + id, cliente, 10000);
@@ -56,14 +69,12 @@ public class Banco {
 
                     agregarCliente(cliente);
                     id++;
-                    cuentaCorriente = !cuentaCorriente; // alterna tipo de cuenta
+                    cuentaCorriente = !cuentaCorriente;
                 }
             }
-
             System.out.println("Clientes cargados correctamente: " + listaClientes.size());
-
         } catch (IOException e) {
-            System.err.println("Error al leer archivo: " + e.getMessage());
+            System.err.println("Error al leer archivo:" + e.getMessage());
         }
     }
 

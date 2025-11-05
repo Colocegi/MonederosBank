@@ -1,11 +1,15 @@
 package Vista;
 
-import Modelo.*;
+// Importa el controlador
+import Controlador.ControladorUsuario;
+import Modelo.Banco;
+import Modelo.Cliente;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
+
+// BORRAMOS: java.io.BufferedReader
+// BORRAMOS: java.io.FileReader
 
 public class FormAcceso extends JFrame {
 
@@ -14,7 +18,8 @@ public class FormAcceso extends JFrame {
     private JButton btnIngresar;
     private JButton btnSalir;
 
-    private Banco banco;
+    // BORRAMOS: private Banco banco;
+    private ControladorUsuario controlador; // <-- AÑADIDO: La Vista conoce al Controlador
 
     public FormAcceso() {
         setTitle("Acceso - MonederosBank");
@@ -45,9 +50,10 @@ public class FormAcceso extends JFrame {
 
         setContentPane(panelAcceso);
 
-        // Crear banco y cargar usuarios desde archivo
-        banco = new Banco("MonederosBank", "MB001");
-        banco.cargarClientesDesdeArchivo("C:\\Users\\leanc\\OneDrive\\Documentos\\GitHub\\MonederosBank\\TPO\\src\\datos\\usuario.txt");
+        // BORRAMOS: Las dos líneas de new Banco() y banco.cargarClientes...
+
+        // AÑADIDO: La Vista crea su controlador
+        this.controlador = new ControladorUsuario();
 
         btnIngresar.addActionListener(this::loginAction);
         btnSalir.addActionListener(e -> System.exit(0));
@@ -57,44 +63,30 @@ public class FormAcceso extends JFrame {
         String usuario = txtUsuario.getText().trim();
         String clave = new String(passClave.getPassword()).trim();
 
-        if (validarCredenciales(usuario, clave)) {
-            Cliente clienteActual = banco.buscarClientePorNombre(usuario);
-            if (clienteActual != null) {
-                dispose();
-                BancoView vista = new BancoView();
-                vista.setBanco(banco);
-                vista.setClienteActual(clienteActual);
+        // CAMBIADO: Ya no llama a validarCredenciales local
+        // Llama al controlador para que haga el trabajo
+        Cliente clienteActual = controlador.validarIngreso(usuario, clave);
 
-                JFrame frame = new JFrame("MonederosBank");
-                frame.setContentPane(vista.getMainPanel());
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "Cliente no encontrado.");
-            }
+        if (clienteActual != null) { // Si el controlador devuelve un cliente...
+            dispose(); // Cierra la ventana de Login
+
+            BancoView vista = new BancoView();
+            vista.setBanco(controlador.getBanco()); // Pide el banco al controlador
+            vista.setClienteActual(clienteActual);  // Pasa el cliente validado
+
+            JFrame frame = new JFrame("MonederosBank");
+            frame.setContentPane(vista.getMainPanel());
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(600, 500);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
         } else {
+            // El controlador devolvió null (falló el login)
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
         }
     }
 
-    private boolean validarCredenciales(String nombre, String clave) {
-        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\leanc\\OneDrive\\Documentos\\GitHub\\MonederosBank\\TPO\\src\\datos\\usuario.txt"))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(",");
-                if (partes.length == 2) {
-                    String usuarioArchivo = partes[0].trim();
-                    String claveArchivo = partes[1].trim();
-                    if (usuarioArchivo.equalsIgnoreCase(nombre) && claveArchivo.equals(clave)) {
-                        return true;
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            System.err.println("Error validando usuarios: " + ex.getMessage());
-        }
-        return false;
-    }
+    // BORRAMOS: Todo el método private boolean validarCredenciales(...)
+    // Ya no es responsabilidad de esta clase.
 }
