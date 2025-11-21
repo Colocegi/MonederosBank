@@ -82,9 +82,9 @@ public class MainConsola {
         clienteActual = controlador.validarIngreso(nombre, clave); //
 
         if (clienteActual != null) {
-            System.out.println("\n✅ Ingreso Exitoso. ¡Bienvenido, " + clienteActual.getNombre() + "!");
+            System.out.println("\n Ingreso Exitoso. ¡Bienvenido, " + clienteActual.getNombre() + "!");
         } else {
-            System.out.println("\n❌ Error de Autenticación. Nombre de usuario o clave incorrectos.");
+            System.out.println("\n Error de Autenticación. Nombre de usuario o clave incorrectos.");
         }
     }
 
@@ -175,7 +175,7 @@ public class MainConsola {
             double monto = Double.parseDouble(scanner.nextLine());
 
             if (monto <= 0) {
-                System.out.println("❌ Error: El monto debe ser positivo.");
+                System.out.println(" Error: El monto debe ser positivo.");
                 return;
             }
 
@@ -184,7 +184,7 @@ public class MainConsola {
             deposito.ejecutar(); //
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Error: Monto ingresado no válido.");
+            System.out.println(" Error: Monto ingresado no válido.");
         }
     }
 
@@ -201,19 +201,19 @@ public class MainConsola {
             double monto = Double.parseDouble(scanner.nextLine());
 
             if (monto <= 0) {
-                System.out.println("❌ Error: El monto debe ser positivo.");
+                System.out.println(" Error: El monto debe ser positivo.");
                 return;
             }
 
             cuenta.debitar(monto); // Llama a debitar de Ahorro o Corriente
 
-            System.out.println("✅ Débito/Retiro de $" + monto + " exitoso de cuenta #" + cuenta.getNumCuenta());
+            System.out.println(" Débito/Retiro de $" + monto + " exitoso de cuenta #" + cuenta.getNumCuenta());
             System.out.println("Nuevo Saldo: $" + cuenta.getSaldo());
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Error: Monto ingresado no válido.");
+            System.out.println(" Error: Monto ingresado no válido.");
         } catch (FalloTransaccionException e) { //
-            System.out.println("❌ FALLO TRANSACCIÓN: " + e.getMessage());
+            System.out.println(" FALLO TRANSACCIÓN: " + e.getMessage());
         }
     }
 
@@ -229,18 +229,18 @@ public class MainConsola {
             if (cuenta instanceof CuentaAhorro ca) {
                 System.out.println("Acreditando intereses a Cuenta de Ahorro #" + ca.getNumCuenta());
                 ca.calcularIntereses(); //
-                System.out.println("✅ Intereses aplicados. Nuevo Saldo: $" + ca.getSaldo());
+                System.out.println(" Intereses aplicados. Nuevo Saldo: $" + ca.getSaldo());
 
             } else if (cuenta instanceof CuentaCorriente cc) {
                 System.out.println("Cobrando cuota de mantenimiento a Cuenta Corriente #" + cc.getNumCuenta());
                 cc.cobrarMantenimiento(); //
-                System.out.println("✅ Cuota de mantenimiento cobrada. Nuevo Saldo: $" + cc.getSaldo());
+                System.out.println(" Cuota de mantenimiento cobrada. Nuevo Saldo: $" + cc.getSaldo());
 
             } else {
                 System.out.println("Esta cuenta no tiene operaciones especiales aplicables.");
             }
         } catch (FalloTransaccionException e) {
-            System.out.println("❌ FALLO OPERACIÓN: " + e.getMessage());
+            System.out.println(" FALLO OPERACIÓN: " + e.getMessage());
         }
     }
 
@@ -257,7 +257,7 @@ public class MainConsola {
             double monto = Double.parseDouble(scanner.nextLine());
 
             if (monto <= 0) {
-                System.out.println("❌ Error: El monto debe ser positivo.");
+                System.out.println(" Error: El monto debe ser positivo.");
                 return;
             }
 
@@ -272,7 +272,7 @@ public class MainConsola {
             trans.ejecutar(); //
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Error: Monto ingresado no válido.");
+            System.out.println(" Error: Monto ingresado no válido.");
         }
     }
 
@@ -292,7 +292,7 @@ public class MainConsola {
             double monto = Double.parseDouble(scanner.nextLine());
 
             if (monto <= 0) {
-                System.out.println("❌ Error: El monto debe ser positivo.");
+                System.out.println(" Error: El monto debe ser positivo.");
                 return;
             }
 
@@ -303,7 +303,7 @@ public class MainConsola {
             serv.ejecutar(); //
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Error: Monto ingresado no válido.");
+            System.out.println(" Error: Monto ingresado no válido.");
         }
     }
 
@@ -323,7 +323,7 @@ public class MainConsola {
             int plazoDias = Integer.parseInt(scanner.nextLine());
 
             if (monto <= 0 || plazoDias <= 0) {
-                System.out.println("❌ Error: El monto y los días deben ser positivos.");
+                System.out.println(" Error: El monto y los días deben ser positivos.");
                 return;
             }
 
@@ -333,7 +333,7 @@ public class MainConsola {
             cuentaOrigen.debitar(monto);
 
             // Si debitar() fue exitoso (no lanzó excepción):
-            System.out.println("✅ Débito exitoso. Constituyendo Plazo Fijo...");
+            System.out.println(" Débito exitoso. Constituyendo Plazo Fijo...");
 
             int idPlazo = 500 + contadorTransacciones.incrementAndGet();
             PlazoFijo pf = new PlazoFijo(idPlazo, monto, plazoDias); //
@@ -343,10 +343,10 @@ public class MainConsola {
 
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Error: Monto o días ingresados no válidos.");
+            System.out.println(" Error: Monto o días ingresados no válidos.");
         } catch (FalloTransaccionException e) {
             // Capturamos si el débito falla
-            System.out.println("❌ FALLO: No se pudo constituir el Plazo Fijo. " + e.getMessage());
+            System.out.println(" FALLO: No se pudo constituir el Plazo Fijo. " + e.getMessage());
         }
     }
 
@@ -376,10 +376,10 @@ public class MainConsola {
                 }
             }
             // Si el bucle termina, no encontró la cuenta
-            System.out.println("❌ Número de cuenta no encontrado."); //
+            System.out.println(" Número de cuenta no encontrado."); //
             return null;
         } catch (NumberFormatException e) {
-            System.out.println("❌ Entrada inválida. Debe ingresar un número.");
+            System.out.println(" Entrada inválida. Debe ingresar un número.");
             return null;
         }
     }
@@ -415,6 +415,6 @@ public class MainConsola {
 
         String rutaArchivo = "reporte." + (formato == ReportFormat.CSV ? "csv" : "txt");
         gestorReportes.escribirReporteAArchivo(rutaArchivo, formato); //
-        System.out.println("✅ Reporte generado y escrito en el archivo: " + rutaArchivo);
+        System.out.println(" Reporte generado y escrito en el archivo: " + rutaArchivo);
     }
 }

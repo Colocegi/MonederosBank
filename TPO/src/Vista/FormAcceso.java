@@ -67,9 +67,8 @@ public class FormAcceso extends JFrame {
         // Llama al controlador para que haga el trabajo
         Cliente clienteActual = controlador.validarIngreso(usuario, clave);
 
-        if (clienteActual != null) { // Si el controlador devuelve un cliente...
-            dispose(); // Cierra la ventana de Login
-
+        if (clienteActual != null) { // Si el controlador devuelve un cliente Cierra la ventana de Login
+            dispose();
             BancoView vista = new BancoView();
             vista.setBanco(controlador.getBanco()); // Pide el banco al controlador
             vista.setClienteActual(clienteActual);  // Pasa el cliente validado

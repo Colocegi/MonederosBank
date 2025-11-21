@@ -31,9 +31,6 @@ public class Deposito extends Transaccion {
 
         // Usamos el método acreditar() de la cuenta
         this.cuentaDestino.acreditar(this.monto);
-        
-        // Asumiendo que listaTransacciones es accesible/inicializada
-        // this.cuentaDestino.listaTransacciones.add(this); 
 
         System.out.println("DEPÓSITO EXITOSO.");
         System.out.println("Nuevo Saldo: $" + this.cuentaDestino.getSaldo());

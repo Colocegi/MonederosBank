@@ -1,9 +1,6 @@
 package Modelo;
 
-/**
- * Representa al usuario que intenta iniciar sesión.
- * Es un modelo de datos simple (POJO).
- */
+
 public class Usuario {
 
     private String nombre;

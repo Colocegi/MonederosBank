@@ -18,7 +18,7 @@ public class Cliente implements ICliente {
     private List<Cuenta> listaCuentas;
 
     // --- Constructor ---
-    // Este es el constructor que usas en MainTest
+    // Este es el constructor que usa en MainTest
     public Cliente(int idCliente, String nombre, String apellido) {
         this.idCliente = idCliente;
         this.nombre = nombre;
@@ -38,8 +38,8 @@ public class Cliente implements ICliente {
         this.listaCuentas.add(cuenta);
     }
 
-    // --- Getters ---
-    // (Estos son los métodos que usa tu GestorReportes)
+
+    //  métodos que usa GestorReportes
 
     public int getIdCliente() {
         return idCliente;

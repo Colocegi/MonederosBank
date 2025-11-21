@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Página inicial del sistema bancario.
- * Muestra el logo/nombre del banco y permite ir al formulario de acceso.
+ * Muestra el nombre del banco y permite ir al formulario de acceso.
  */
 public class FormInicio extends JFrame {
 
@@ -32,7 +32,7 @@ public class FormInicio extends JFrame {
         gbc.insets = new Insets(15, 15, 15, 15);
         gbc.fill = GridBagConstraints.CENTER;
 
-        // --- LOGO / TÍTULO ---
+        // --- TÍTULO ---
         tituloLabel = new JLabel("MONEDEROS BANK");
         tituloLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
         tituloLabel.setForeground(new Color(0, 51, 102));
@@ -59,11 +59,6 @@ public class FormInicio extends JFrame {
             }
         });
 
-        // --- LOGO OPCIONAL ---
-        // Si querés, podés poner una imagen en src/resources/logo.png
-        // y descomentar esta línea:
-        // logoLabel = new JLabel(new ImageIcon(getClass().getResource("/resources/logo.png")));
-
         // --- AGREGAR COMPONENTES ---
         gbc.gridy = 0;
         mainPanel.add(tituloLabel, gbc);
@@ -85,7 +80,6 @@ public class FormInicio extends JFrame {
         });
     }
 
-    // Si usás GUI Builder, podés conectar el mainPanel desde el diseñador
     public JPanel getMainPanel() {
         return mainPanel;
     }

@@ -1,6 +1,6 @@
-package Modelo; // (O donde esté tu MainBanco)
+package Modelo;
 
-import Vista.FormInicio; // <-- CAMBIADO
+import Vista.FormInicio; //  CAMBIADO
 import javax.swing.*;
 
 public class MainBanco {
@@ -13,7 +13,7 @@ public class MainBanco {
             }
 
             // AHORA INICIA EN LA BIENVENIDA
-            FormInicio inicio = new FormInicio(); // <-- CAMBIADO
+            FormInicio inicio = new FormInicio(); //  CAMBIADO
             inicio.setVisible(true);
         });
     }

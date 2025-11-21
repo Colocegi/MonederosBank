@@ -6,7 +6,7 @@ ID: 3 | lucas 333
 ID: 2 | thiago 222
 ID: 5 | valentina 555
 === CUENTAS (Ordenadas por N°) ===
-Modelo.Cuenta #1001 | Saldo: $17650.0
+Modelo.Cuenta #1001 | Saldo: $40000.0
 Modelo.Cuenta #1003 | Saldo: $40000.0
 Modelo.Cuenta #1005 | Saldo: $40000.0
 Modelo.Cuenta #2002 | Saldo: $25000.0

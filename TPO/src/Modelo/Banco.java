@@ -52,7 +52,7 @@ public class Banco {
                 String[] partes = linea.split(",");
                 if (partes.length == 2) {
                     String nombre = partes[0].trim();
-                    // OJO: La clave está en partes[1], la usamos para el apellido (como en tu código)
+
                     String claveComoApellido = partes[1].trim();
 
                     Cliente cliente = new Cliente(id, nombre, claveComoApellido); // Usamos la clave como apellido de demo

@@ -15,7 +15,6 @@ public class GestorReportes implements IReportable {
         this.banco = banco;
     }
 
-    // ... (Las clases internas TextReportFormatter y CsvReportFormatter quedan igual) ...
 
     private interface ReportFormatter {
         String header(Banco banco);
@@ -57,9 +56,7 @@ public class GestorReportes implements IReportable {
         if (formato == ReportFormat.CSV) return new CsvReportFormatter();
         return new TextReportFormatter();
     }
-    // =========================================================
-    // AQUÍ ESTÁ LA MODIFICACIÓN (MÉTODO generarReporte)
-    // =========================================================
+
     @Override
     public String generarReporte(ReportFormat formato) {
         ReportFormatter f = elegirFormatter(formato);
@@ -69,38 +66,33 @@ public class GestorReportes implements IReportable {
 
         sb.append(f.seccionClientesTitulo()).append("\n");
 
-        // --- INICIO DE CAMBIO (CLIENTES) ---
-        // 1. Obtenemos la lista original
+        //  Obtenemos la lista original
         List<Cliente> clientes = banco.getListaClientes();
 
-        // 2. Creamos una NUEVA lista ordenada alfabéticamente por nombre
+        //  Creamos una NUEVA lista ordenada alfabéticamente por nombre
         List<Cliente> clientesOrdenados = clientes.stream()
                 .sorted(Comparator.comparing(Cliente::getNombre))
                 .collect(Collectors.toList());
 
-        // 3. Iteramos sobre la lista ordenada
+        //  Iteramos sobre la lista ordenada
         for (Cliente c : clientesOrdenados) {
             sb.append(f.cliente(c)).append("\n");
         }
-        // --- FIN DE CAMBIO (CLIENTES) ---
+
 
 
         sb.append(f.seccionCuentasTitulo()).append("\n");
 
-        // --- INICIO DE CAMBIO (CUENTAS) ---
-        // 1. Obtenemos la lista original
+
         List<Cuenta> cuentas = banco.getListaCuentas();
 
-        // 2. Creamos una NUEVA lista ordenada por número de cuenta
         List<Cuenta> cuentasOrdenadas = cuentas.stream()
                 .sorted(Comparator.comparing(Cuenta::getNumCuenta))
                 .collect(Collectors.toList());
 
-        // 3. Iteramos sobre la lista ordenada
         for (Cuenta cta : cuentasOrdenadas) {
             sb.append(f.cuenta(cta)).append("\n");
         }
-        // --- FIN DE CAMBIO (CUENTAS) ---
 
         return sb.toString();
     }
